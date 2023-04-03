@@ -20,6 +20,8 @@
             {"pin_a": "B13", "pin_b": "B14"}
         ]
     },
+
+    
     "matrix_pins": {
         "cols": ["A3", "A4", "A5","A6"],
         "rows": ["A2", "A1", "A0"]

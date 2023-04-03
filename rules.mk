@@ -12,9 +12,7 @@ OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
 
 # LTO is required to fit the firmware into the available 24K of flash
 LTO_ENABLE = yes
-
-# EEPROM emulation not supported yet (need to implement a proper firmware size
-# check first, otherwise the chance of the EEPROM backing store overwriting
-# some part of the firmware code is really high).
 EEPROM_DRIVER = transient
 ENCODER_ENABLE = yes   # Enable encoder
+OLED_ENABLE=yes # Oled
+OLED_DRIVER = SSD1306
