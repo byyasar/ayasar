@@ -1,0 +1,55 @@
+{
+    "manufacturer": "byyasar",
+    "keyboard_name": "ayasar",
+    "maintainer": "byyasar",
+    "bootloader": "stm32duino",
+    "board": "STM32_F103_STM32DUINO",
+    "diode_direction": "COL2ROW",
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "encoder": true,
+        "nkro": true
+    },
+
+    "encoder": {
+        "rotary": [
+            {"pin_a": "B13", "pin_b": "B14"}
+        ]
+    },
+    "matrix_pins": {
+        "cols": ["A3", "A4", "A5","A6"],
+        "rows": ["A2", "A1", "A0"]
+    },
+    "processor": "STM32F103",
+    "url": "",
+    "usb": {
+        "device_version": "1.0.0",
+        "pid": "0x4254",
+        "vid": "0x7070"
+    },
+    "layouts": {
+        "LAYOUT_numpad_4x3": {
+            "layout": [
+                {"label":"K000", "x":0, "y":0},
+                {"label":"K001", "x":1, "y":0},
+                {"label":"K002", "x":2, "y":0},
+               
+                {"label":"K100", "x":0, "y":1},
+                {"label":"K101", "x":1, "y":1},
+                {"label":"K102", "x":2, "y":1},
+             
+                {"label":"K200", "x":0, "y":2},
+                {"label":"K201", "x":1, "y":2},
+                {"label":"K202", "x":2, "y":2},
+
+                {"label":"K300", "x":0, "y":3},
+                {"label":"K301", "x":1, "y":3},
+                {"label":"K302", "x":2, "y":3}               
+            ]
+        }
+    }
+}
