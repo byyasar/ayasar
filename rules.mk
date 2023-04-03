@@ -16,3 +16,5 @@ EEPROM_DRIVER = transient
 ENCODER_ENABLE = yes   # Enable encoder
 OLED_ENABLE=yes # Oled
 OLED_DRIVER = SSD1306
+
+OPT_DEFS += -DHAL_USE_I2C=TRUE
