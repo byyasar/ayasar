@@ -11,7 +11,7 @@ int mouseMode     = 1;
 int fusion360Mode = 1; // 1-zoom 2-pan
 int menuSayisi=4;
 
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE };
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -31,13 +31,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     */
     [0] = LAYOUT_numpad_4x3( // ana
-        KC_P8, KC_P9, MYCHANGELAYER, XXXXXXX, KC_P4, KC_P5, KC_P6, KC_P7, KC_P0, KC_P1, KC_P2, KC_P3),
+        KC_P8, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, KC_P4, KC_P5, KC_P6, KC_P7, KC_P0, KC_P1, KC_P2, KC_P3),
     [1] = LAYOUT_numpad_4x3( // fusion 360
         MOSEMODECHANGE, TUSLARSERBEST, MYCHANGELAYER, XXXXXXX, FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4, KC_P5, KC_P6, KC_P7, KC_P8),
     [2] = LAYOUT_numpad_4x3( // youtube
-        FUSIONZOOM, TUSLARSERBEST, MYCHANGELAYER, XXXXXXX, KC_LEFT_GUI, KC_P2, KC_P3, KC_P4, KC_P5, KC_P6, KC_P7, KC_P8),
+        KC_K, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, KC_F, KC_P2, KC_P3, KC_P4, KC_P5, KC_P6, KC_P7, KC_P8),
     [3] = LAYOUT_numpad_4x3( // obs
-        KC_P8, KC_P9, MYCHANGELAYER, XXXXXXX, KC_P4, KC_P5, KC_P6, KC_P7, KC_P0, KC_P1, KC_P2, KC_P3),
+        XXXXXXX, XXXXXXX, MYCHANGELAYER, XXXXXXX, XXXXXXX, KC_P5, KC_P6, KC_P7, KC_P0, KC_P1, KC_P2, KC_P3),
 };
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     oled_clear();
@@ -137,11 +137,11 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 }
             }
             break;
-        case 2:
+        case 2: //youtube menu
             if (clockwise) { // KC_MS_BTN1 KC_LEFT_SHIFT
-                tap_code(KC_MS_LEFT);
+               tap_code(KC_RIGHT);
             } else {
-                tap_code(KC_MS_RIGHT);
+                tap_code(KC_LEFT);
             }
             break;
         case 3:
