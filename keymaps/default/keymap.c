@@ -9,13 +9,14 @@
 int myLayer       = 0;
 int mouseMode     = 1;
 int fusion360Mode = 1; // 1-zoom 2-pan
+int menuSayisi=4;
 
 enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┬───┬───┐
-     * │Ent│Esc│ X │   
+     * │Ent│Esc│ X │
      * ├───┼───┼───┼───┐
      * │ 1 │ 2 │ 3 │ 4 │
      * ├───┴───┼───┼───┤
@@ -86,19 +87,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 fusion360Mode = 1; //
                 mouseMode     = 1;
             }
-
             break;
         case MOSEMODECHANGE:
             if (record->event.pressed) {
                 mouseMode++;
-                mouseMode = mouseMode % 3;
+                mouseMode = mouseMode % 4;
             }
             break;
         case MYCHANGELAYER:
             if (record->event.pressed) {
                 layer_off(myLayer);
                 myLayer++;
-                myLayer = myLayer % 3;
+                myLayer = myLayer % menuSayisi;
                 layer_on(myLayer);
             }
             break;
@@ -144,6 +144,13 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 tap_code(KC_MS_RIGHT);
             }
             break;
+        case 3:
+            if (clockwise) {
+                tap_code(KC_VOLU);
+            } else {
+                tap_code(KC_VOLD);
+            }
+            break;
     }
     return false;
 }
@@ -154,45 +161,29 @@ bool oled_task_user() {
 
     switch (get_highest_layer(layer_state)) {
         case 0:
-            oled_write(" Ana Menu     ", false);
+            oled_write(" Ana Menu     ", true);
             break;
         case 1:
-            oled_write(" Fusion 360\n", false);
+            oled_write(" Fusion 360\n\n", true);
             if (mouseMode == 1) {
-                oled_write("Scroll", false);
+                oled_write("Scroll ", false);
             } else if (mouseMode == 2) {
-                oled_write("Left-Right", false);
+                oled_write("Left-Right ", false);
             } else {
                 oled_write("Up-Down ", false);
             }
             oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             break;
         case 2:
-            oled_write(" Youtube      ", false);
+            oled_write(" Youtube      ", true);
             break;
         case 3:
-            oled_write(" OBS    ", false);
+            oled_write(" OBS    ", true);
             break;
     }
 
     return false;
 }
-
-/*layer_state_t layer_state_set_user(layer_state_t state) {
-    switch (get_highest_layer(state)) {
-        case 0:
-            // rgblight_setrgb (0x00,  0x00, 0xFF);
-            break;
-        case 1:
-            // rgblight_setrgb (0xFF,  0x00, 0x00);
-            break;
-
-        default: //  for any other layers, or the default layer
-            // rgblight_setrgb (0x00,  0xFF, 0xFF);
-            break;
-    }
-    return state;
-}*/
 
 /*bool oled_task_user(void) {
     oled_set_cursor(0, 0);

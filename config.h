@@ -30,6 +30,7 @@
 #define I2C_DRIVER I2CD1
 #define I2C1_SCL_PIN B6
 #define I2C1_SDA_PIN B7
-#define OLED_DISPLAY_ADDRESS 0x3C    //#define OLED_FONT_H "keyboards/mlego/m65/lib/glcdfont.c"
+#define OLED_DISPLAY_ADDRESS 0x3C    //
+#define OLED_TIMEOUT 0
 #endif
 
