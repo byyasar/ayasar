@@ -11,7 +11,7 @@ int mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
 int fusion360Mode = 1; // 1-zoom 2-pan
 int menuSayisi=4;
 
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE};
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE,PENCEREGECIS};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -31,11 +31,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     */ //Lt basılı tuttuğumda layera git
     [0] = LAYOUT_numpad_4x3( // ana
-        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), KC_P4, KC_P5, KC_P6, KC_P7, KC_P8),
+        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), KC_P4, PENCEREGECIS, KC_P6, KC_P7, KC_P8),
     [1] = LAYOUT_numpad_4x3( // fusion 360
-        MOSEMODECHANGE, TUSLARSERBEST, _______, XXXXXXX, FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4, KC_P5, KC_P6, KC_P7, KC_P8),
+        MOSEMODECHANGE, TUSLARSERBEST, _______, XXXXXXX, FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4, _______, KC_P6, KC_P7, KC_P8),
     [2] = LAYOUT_numpad_4x3( // youtube
-        KC_K, KC_ESCAPE, _______, XXXXXXX, KC_F, KC_P2, KC_P3, KC_P4, KC_P5, KC_P6, KC_P7, KC_P8),
+        KC_K, KC_ESCAPE, _______, XXXXXXX, KC_F, KC_P2, KC_P3, KC_KB_VOLUME_UP, _______,KC_P6, KC_P7, KC_KB_VOLUME_DOWN),
     [3] = LAYOUT_numpad_4x3( // obs
         XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, KC_P5, KC_P6, KC_P7, KC_P0, KC_P1, KC_P2, KC_P3),
 };
@@ -80,7 +80,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             mouseMode     = 2;
             register_code(KC_MS_BTN3);
             break;
-        case TUSLARSERBEST: //
+        case PENCEREGECIS: // 
+            if (record->event.pressed) {
+                register_code(KC_LGUI);
+                register_code(KC_TAB);
+                unregister_code(KC_TAB);
+                unregister_code(KC_LGUI);
+            }
+            
+            break;
+        case TUSLARSERBEST: // KC_TAB
             if (record->event.pressed) {
                 unregister_code(KC_MS_BTN3);
                 unregister_code(KC_LEFT_SHIFT);
@@ -168,34 +177,34 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
 bool oled_task_user() {
     oled_set_cursor(0, 0);
-    oled_write_P(myLayer == 1 ? PSTR("1->") : (myLayer == 2 ? PSTR("2->") : (myLayer == 3 ? PSTR("3->") : PSTR("0->"))), true);
+    oled_write_P(myLayer == 1 ? PSTR("1->") : (myLayer == 2 ? PSTR("2->") : (myLayer == 3 ? PSTR("3->") : PSTR("0->"))), false);
 
     switch (get_highest_layer(layer_state)) {
         case 0:
-            oled_write(" Ana Menu", true);
-            oled_write("\nEnt|Esc|        \n 1 | 2 | 3 | 4 |\n 5 | 6 | 7 | 8 |", false);
+            oled_write(" Ana Menu", false);
+            oled_write("\n Ent|Esc|        \n  1 | 2 | 3 | 4 |\n  5 | 6 | 7 | 8 |", false);
             break;
         case 1:
-            oled_write(" Fusion 360 ", true);
+            oled_write(" Fusion 360 ", false);
             //oled_write(" Fusion 360->SC\nMMD|Esc|   |   |\nZom|Rot|Pan| 4 |\n 5 | 6 | 7 | 8 |", true);
             if (mouseMode == 1) {
                 //oled_write("Scroll ", false);
-                oled_write("-> SC\nMMD|Esc|        \nZom|Rot|Pan| 4 |\n 5 | 6 | 7 | 8 |", false);
+                oled_write("-> SC\n MMD|Esc|        \n Zom|Rot|Pan| 4 |\n  5 | 6 | 7 | 8 |", false);
             } else if (mouseMode == 2) {
                 //oled_write("Left-Right ", false);
-                oled_write("-> LR\nMMD|Esc|        \nZom|Rot|Pan| 4 |\n 5 | 6 | 7 | 8 |", false);
+                oled_write("-> LR\n MMD|Esc|        \n Zom|Rot|Pan| 4 |\n  5 | 6 | 7 | 8 |", false);
             } else {
                 //oled_write("Up-Down ", false);
-                oled_write("-> UD\nMMD|Esc|        \nZom|Rot|Pan| 4 |\n 5 | 6 | 7 | 8 |", false);
+                oled_write("-> UD\n MMD|Esc|        \n Zom|Rot|Pan| 4 |\n  5 | 6 | 7 | 8 |", false);
             }
             //oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             break;
         case 2:
-            oled_write(" Youtube  ", true);
-            oled_write("-> F-R\nPly|Esc|        \nFlS| 2 | 3 | 4 |\n 5 | 6 | 7 | 8 |", false);
+            oled_write(" Youtube  ", false);
+            oled_write("-> F-R\n Ply|Esc|        \n FlS| 2 | 3 | V+|\n TAB| 6 | 7 | V-|", false);
             break;
         case 3:
-            oled_write(" OBS    ", true);
+            oled_write(" OBS    ", false);
             break;
     }
 
