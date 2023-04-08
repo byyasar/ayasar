@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [1] = LAYOUT_numpad_4x3( // fusion 360
         MOSEMODECHANGE, TUSLARSERBEST, _______, XXXXXXX, FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4, _______, KC_P6, KC_P7, KC_P8),
     [2] = LAYOUT_numpad_4x3( // youtube
-        KC_K, KC_ESCAPE, _______, XXXXXXX, KC_F, KC_P2, KC_P3, KC_KB_VOLUME_UP, _______,KC_P6, KC_P7, KC_KB_VOLUME_DOWN),
+        KC_K, KC_ESCAPE, _______, XXXXXXX, KC_F, KC_P2, KC_P3, KC_AUDIO_VOL_UP, _______,KC_P6, KC_P7, KC_AUDIO_VOL_DOWN),
     [3] = LAYOUT_numpad_4x3( // obs
         XXXXXXX, XXXXXXX, _______, XXXXXXX, XXXXXXX, KC_P5, KC_P6, KC_P7, KC_P0, KC_P1, KC_P2, KC_P3),
 };
@@ -97,7 +97,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 mouseMode     = 1;
             }
             break;
-        case MOSEMODECHANGE: // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
+        case MOSEMODECHANGE: // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN   44444
             if (record->event.pressed) {
                 if (mouseMode==1)
                 {
