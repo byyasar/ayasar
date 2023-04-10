@@ -24,7 +24,7 @@
 #define ENCODER_RESOLUTION 4
 #endif
 
-#ifdef OLED_ENABLE
+/*#ifdef OLED_ENABLE
 //#define OLED_DISPLAY_WIDTH 128
 //#define OLED_DISPLAY_HEIGHT 32
 #define I2C_DRIVER I2CD1
@@ -32,5 +32,29 @@
 #define I2C1_SDA_PIN B7
 #define OLED_DISPLAY_ADDRESS 0x3C    //
 #define OLED_TIMEOUT 0
-#endif
+#endif*/
 
+#ifdef OLED_ENABLE
+#define OLED_DISPLAY_WIDTH 128
+#define OLED_DISPLAY_HEIGHT 64
+#define OLED_IC OLED_IC_SH1106
+#define I2C_DRIVER I2CD1
+#define I2C1_SCL_PIN B6
+#define I2C1_SDA_PIN B7
+#define OLED_DISPLAY_ADDRESS 0x3C    
+#define OLED_FONT_WIDTH 6
+#define OLED_FONT_HEIGHT 8
+#define OLED_TIMEOUT 0 
+#define OLED_MATRIX_SIZE 1024
+
+#endif
+/*    0x10, // Width: 16
+    0x13, // Height: 19
+    0x20, // First Char: 32
+    0xE0, // Numbers of Chars: 224
+#define OLED_FONT_H "font/glcdfont.c"
+ //5*7
+#define OLED_FONT_WIDTH 19
+#define OLED_FONT_HEIGHT 16
+#define OLED_FONT_START 32
+#define OLED_FONT_END 224*/

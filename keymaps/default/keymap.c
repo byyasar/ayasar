@@ -205,7 +205,7 @@ bool oled_task_user() {
             //oled_write("----------> Ana Menu", true);
             oled_write("           ", true);
             oled_write(" Ana Menu", false);
-            oled_write("\n Ent| Esc|-> V+ - V-\n  1 |  2 |  3 |  4 |\n Tab|  6 |  7 | Slp|", true);
+            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 |  4 |\n Tab|  6 |  7 | Slp|", true);
             break;
         case 1:
             oled_write("         ", true);
@@ -236,7 +236,7 @@ bool oled_task_user() {
         case 4:
             oled_write("                ", true);
             oled_write(" OBS", false); 
-            oled_write("\n Ent| Esc|-> V+ - V-\n  1 | Rec| Pau| Stp|\n Cam| Mic|  7 |  8 |", true);
+            oled_write("\n Ent| Esc|-> V- x V+\n  1 | Rec| Pau| Stp|\n Cam| Mic|  7 |  8 |", true);
             break;
     }
 
