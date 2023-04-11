@@ -11,6 +11,8 @@ int mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
 int fusion360Mode = 1; // 1-zoom 2-pan
 int menuSayisi=5;
 
+
+
 enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE,PENCEREGECIS};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -195,7 +197,18 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
     return false;
 }
 
+#ifdef OLED_ENABLE
+
+// Rotate OLED
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return OLED_ROTATION_180; 
+}
+
+// Draw to OLED
 bool oled_task_user() {
+// Rotate OLED
+
+
     oled_set_cursor(0, 0);
     //oled_write_P(myLayer == 1 ? PSTR("1->") : (myLayer == 2 ? PSTR("2->") : (myLayer == 3 ? PSTR("3->") : PSTR("0->"))), false);
 
@@ -242,6 +255,11 @@ bool oled_task_user() {
 
     return false;
 }
+
+
+#endif
+
+
 
 /*bool oled_task_user(void) {
     oled_set_cursor(0, 0);
