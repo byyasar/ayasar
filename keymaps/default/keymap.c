@@ -6,14 +6,16 @@
 #include "keymap_turkish_f.h"
 #include "sendstring_turkish_f.h"
 
+
 int myLayer       = 0;
 int mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
 int fusion360Mode = 1; // 1-zoom 2-pan
 int menuSayisi=5;
+bool winMac=false; //false durumunda windows true durumunda mac tuşları çalışacak
 
 
 
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE,PENCEREGECIS};
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE,PENCEREGECIS,WINMAC};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -34,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     */ //Lt basılı tuttuğumda layera git
     [0] = LAYOUT_numpad_4x3( // ana
         KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX,
-         LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), LT(4,KC_P4), 
+         LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), LT(4,WINMAC), 
          PENCEREGECIS, KC_P6, KC_P7, KC_SYSTEM_SLEEP),
 
     [1] = LAYOUT_numpad_4x3( // fusion 360
@@ -101,6 +103,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 register_code(KC_TAB);
                 unregister_code(KC_TAB);
                 unregister_code(KC_LGUI);
+            }
+            
+            break;
+        case WINMAC: // 
+            if (record->event.pressed) {
+                winMac=!winMac; 
             }
             
             break;
@@ -211,12 +219,14 @@ bool oled_task_user() {
 
     oled_set_cursor(0, 0);
     //oled_write_P(myLayer == 1 ? PSTR("1->") : (myLayer == 2 ? PSTR("2->") : (myLayer == 3 ? PSTR("3->") : PSTR("0->"))), false);
+    oled_write_P(winMac == false ? PSTR("W") : PSTR("M"), false);
 
     switch (get_highest_layer(layer_state)) {
         case 0:
             //oled_write("----- Ana Menu -----", true);
             //oled_write("----------> Ana Menu", true);
-            oled_write("           ", true);
+            oled_write("          ", true);
+            //oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             oled_write(" Ana Menu", false);
             oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 |  4 |\n Tab|  6 |  7 | Slp|", true);
             break;
