@@ -6,16 +6,13 @@
 #include "keymap_turkish_f.h"
 #include "sendstring_turkish_f.h"
 
+int  myLayer       = 0;
+int  mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
+int  fusion360Mode = 1; // 1-zoom 2-pan
+int  menuSayisi    = 5;
+bool winMac        = false; // false durumunda windows true durumunda mac tuşları çalışacak
 
-int myLayer       = 0;
-int mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
-int fusion360Mode = 1; // 1-zoom 2-pan
-int menuSayisi=5;
-bool winMac=false; //false durumunda windows true durumunda mac tuşları çalışacak
-
-
-
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE ,PLAYPAUSE,PENCEREGECIS,WINMAC};
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
@@ -36,7 +33,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     */ //Lt basılı tuttuğumda layera git
     [0] = LAYOUT_numpad_4x3( // ana
         KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX,
-         LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), LT(4,WINMAC), 
+         LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), WINMAC, 
          PENCEREGECIS, KC_P6, KC_P7, KC_SYSTEM_SLEEP),
 
     [1] = LAYOUT_numpad_4x3( // fusion 360
@@ -44,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4,
          _______, KC_P6, KC_P7, KC_P8),
     [2] = LAYOUT_numpad_4x3( // youtube
-        KC_K, KC_ESCAPE, _______, XXXXXXX, 
+        KC_K, KC_ESCAPE, _______, XXXXXXX, 33333
         KC_F, KC_P2, KC_P3, KC_AUDIO_VOL_UP,
          _______,KC_P6, KC_P7, KC_AUDIO_VOL_DOWN),
     [3] = LAYOUT_numpad_4x3( // VLC
@@ -97,20 +94,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             mouseMode     = 2;
             register_code(KC_MS_BTN3);
             break;
-        case PENCEREGECIS: // 
+        case PENCEREGECIS: //
             if (record->event.pressed) {
-                register_code(KC_LGUI);
-                register_code(KC_TAB);
-                unregister_code(KC_TAB);
-                unregister_code(KC_LGUI);
+                if (winMac) {
+                    register_code(KC_LGUI);
+                    register_code(KC_TAB);
+                    unregister_code(KC_TAB);
+                    unregister_code(KC_LGUI);
+                } else {
+                    register_code(KC_LEFT_ALT);
+                    register_code(KC_TAB);
+                    unregister_code(KC_TAB);
+                    unregister_code(KC_LEFT_ALT);
+                }
             }
-            
+
             break;
-        case WINMAC: // 
+        case WINMAC: //
             if (record->event.pressed) {
-                winMac=!winMac; 
+                winMac = !winMac;
             }
-            
+
             break;
         case TUSLARSERBEST: // KC_TAB
             if (record->event.pressed) {
@@ -122,19 +126,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case MOSEMODECHANGE: // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN   44444
             if (record->event.pressed) {
-                if (mouseMode==1)
-                {
-                  mouseMode++;
-                }
-                else if (mouseMode==2)
-                {
+                if (mouseMode == 1) {
                     mouseMode++;
+                } else if (mouseMode == 2) {
+                    mouseMode++;
+                } else {
+                    mouseMode--;
                 }
-                else
-                {
-                     mouseMode--;
-                }
-               
             }
             break;
         case MYCHANGELAYER:
@@ -180,16 +178,16 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
                 }
             }
             break;
-        case 2: //youtube menu
+        case 2:              // youtube menu
             if (clockwise) { // KC_MS_BTN1 KC_LEFT_SHIFT
-               tap_code(KC_RIGHT);
+                tap_code(KC_RIGHT);
             } else {
                 tap_code(KC_LEFT);
             }
             break;
-        case 3: //VLC 
-           if (clockwise) { // KC_MS_BTN1 KC_LEFT_SHIFT
-               tap_code(KC_RIGHT);
+        case 3:              // VLC
+            if (clockwise) { // KC_MS_BTN1 KC_LEFT_SHIFT
+                tap_code(KC_RIGHT);
             } else {
                 tap_code(KC_LEFT);
             }
@@ -209,56 +207,55 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
 // Rotate OLED
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    return OLED_ROTATION_180; 
+    return OLED_ROTATION_180;
 }
 
 // Draw to OLED
 bool oled_task_user() {
-// Rotate OLED
-
+    // Rotate OLED
 
     oled_set_cursor(0, 0);
-    //oled_write_P(myLayer == 1 ? PSTR("1->") : (myLayer == 2 ? PSTR("2->") : (myLayer == 3 ? PSTR("3->") : PSTR("0->"))), false);
-    oled_write_P(winMac == false ? PSTR("W") : PSTR("M"), false);
+    // oled_write_P(myLayer == 1 ? PSTR("1->") : (myLayer == 2 ? PSTR("2->") : (myLayer == 3 ? PSTR("3->") : PSTR("0->"))), false);
+    oled_write_P(winMac == false ? PSTR(" Win ") : PSTR(" Mac "), false);
 
     switch (get_highest_layer(layer_state)) {
         case 0:
-            //oled_write("----- Ana Menu -----", true);
-            //oled_write("----------> Ana Menu", true);
-            oled_write("          ", true);
-            //oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
+            // oled_write("----- Ana Menu -----", true);
+            // oled_write("----------> Ana Menu", true);
+            oled_write("      ", true);
+            // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             oled_write(" Ana Menu", false);
-            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 |  4 |\n Tab|  6 |  7 | Slp|", true);
+            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 | WxM|\n Tab|  6 |  7 | Slp|", true);
             break;
         case 1:
-            oled_write("         ", true);
+            oled_write("    ", true);
             oled_write(" Fusion 360", false);
-            //oled_write(" Fusion 360->SC\nMMD|Esc|   |   |\nZom|Rot|Pan| 4 |\n 5 | 6 | 7 | 8 |", true);
+            // oled_write(" Fusion 360->SC\nMMD|Esc|   |   |\nZom|Rot|Pan| 4 |\n 5 | 6 | 7 | 8 |", true);
             if (mouseMode == 1) {
-                //oled_write("Scroll ", false);
+                // oled_write("Scroll ", false);
                 oled_write("\n Mod| Esc| -> Scroll\n Zom| Rot| Pan|  4 |\n  5 |  6 |  7 |  8 |", true);
             } else if (mouseMode == 2) {
-                //oled_write("Left-Right ", false);
+                // oled_write("Left-Right ", false);
                 oled_write("\n Mod|Esc |->Sol xSag\n Zom| Rot| Pan|  4 |\n  5 |  6 |  7 |  8 |", true);
             } else {
-                //oled_write("Up-Down ", false);
+                // oled_write("Up-Down ", false);
                 oled_write("\n Mod|Esc |->Asg xYuk\n Zom| Rot| Pan|  4 |\n  5 |  6 |  7 |  8 |", true);
             }
-            //oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
+            // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             break;
         case 2:
-            oled_write("            ", true);
+            oled_write("       ", true);
             oled_write(" Youtube", false);
             oled_write("\n Ply|Esc |->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
             break;
         case 3:
-            oled_write("         ", true);
-            oled_write(" Vlc Player", false); 
+            oled_write("    ", true);
+            oled_write(" Vlc Player", false);
             oled_write("\n Ply|Esc |->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
             break;
         case 4:
-            oled_write("                ", true);
-            oled_write(" OBS", false); 
+            oled_write("           ", true);
+            oled_write(" OBS", false);
             oled_write("\n Ent| Esc|-> V- x V+\n  1 | Rec| Pau| Stp|\n Cam| Mic|  7 |  8 |", true);
             break;
     }
@@ -266,10 +263,7 @@ bool oled_task_user() {
     return false;
 }
 
-
 #endif
-
-
 
 /*bool oled_task_user(void) {
     oled_set_cursor(0, 0);
@@ -318,5 +312,3 @@ static void render_logo(void) {
 }
 
 */
-
-
