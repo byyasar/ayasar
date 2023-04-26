@@ -279,17 +279,17 @@ bool oled_task_user() {
         case 2:
             oled_write("       ", true);
             oled_write(" Youtube", false);
-            oled_write("\n Ply|Esc |->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
+            oled_write("\n Ply| Esc|->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
             break;
         case 3:
             oled_write("    ", true);
             oled_write(" Vlc Player", false);
-            oled_write("\n Ply|Esc |->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
+            oled_write("\n Ply| Esc|->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
             break;
         case 4:
             oled_write("           ", true);
             oled_write(" OBS", false);
-            oled_write("\n Ent| Esc|-> V- x V+\n  1 | Rec| Pau| Stp|\n Cam| Mic|  7 |  8 |", true);
+            oled_write("\n Ent| Esc|-> V- x V+\n  1 | Rec| Pau| Stp|\n Tab| Mic| Cam| Scn|", true);
             break;
     }
 
