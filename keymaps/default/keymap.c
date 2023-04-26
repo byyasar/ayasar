@@ -78,13 +78,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ├───┼───┼───┬───┤
      * │ 1 │Rec│Pau│Stp│
      * ├───┼───┼───┼───┤
-     * │Cam│Mic│ 7 │ 8 │
+     * │Tab│Mic│Cam│Scn│
      * └───┴───┴───┴───┘
      */
     [4] = LAYOUT_numpad_4x3( // OBS
         _______, KC_ESCAPE, _______, XXXXXXX, 
         LALT(KC_F9),LALT(KC_F10), LALT(KC_F11), LALT(KC_F12),
-        LSFT(KC_F9),LSFT(KC_F10), LSFT(KC_F11), LSFT(KC_F12)), 
+        _______,LSFT(KC_F10), LSFT(KC_F11), LSFT(KC_F12)), 
 };
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     oled_clear();
