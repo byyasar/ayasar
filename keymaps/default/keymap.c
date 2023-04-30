@@ -3,8 +3,9 @@
 
 #include QMK_KEYBOARD_H
 
-#include "keymap_turkish_f.h"
-#include "sendstring_turkish_f.h"
+#include "keymap_turkish_q.h"
+#include "sendstring_turkish_q.h"
+//#include "/Users/yasar/qmk_firmware/quantum/keymap_extras/keymap_turkish_f.h"
 
 int  myLayer       = 0;
 int  mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
@@ -118,10 +119,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             register_code(KC_MS_BTN3);
             break;
         case SUSLUPARANTEZ:
-            SEND_STRING("{}");
+            SEND_STRING("{");
             break;
         case CIFTTIRNAK:
-            SEND_STRING("""+""");
+            register_code(TR_DQUO);
+            unregister_code(TR_DQUO);
+
             break;
         case PENCEREGECIS: //
             if (record->event.pressed) {
@@ -234,7 +237,7 @@ bool encoder_update_user(uint8_t index, bool clockwise) {
 
 #ifdef OLED_ENABLE
 
-// Rotate OLED
+// Rotate OLEDv
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     return OLED_ROTATION_180;
 }
@@ -253,8 +256,8 @@ bool oled_task_user() {
             // oled_write("----------> Ana Menu", true);
             oled_write("      ", true);
             // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
-            oled_write(" Ana Menu ", false);
-            oled_write("\n Ent| Esc|-> V- x V+ \n  1 |  2 |  3 | WxM |\n Tab|  6 |  7 | Slp |", true);
+            oled_write(" Ana Menu", false);
+            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 | WxM|\n Tab| Sus| Tir| Slp|", true);
             break;
         case 1:
             oled_write("    ", true);
@@ -265,10 +268,10 @@ bool oled_task_user() {
                 oled_write("\n Mod| Esc| -> Scroll\n Zom| Rot| Pan|  4 |\n Tab|  6 |  7 |  8 |", true);
             } else if (mouseMode == 2) {
                 // oled_write("Left-Right ", false);
-                oled_write("\n Mod|Esc |->Sol xSag\n Zom| Rot| Pan|  4 |\n Tab|  6 |  7 |  8 |", true);
+                oled_write("\n Mod| Esc|->Sol xSag\n Zom| Rot| Pan|  4 |\n Tab|  6 |  7 |  8 |", true);
             } else {
                 // oled_write("Up-Down ", false);
-                oled_write("\n Mod|Esc |->Asg xYuk\n Zom| Rot| Pan|  4 |\n Tab|  6 |  7 |  8 |", true);
+                oled_write("\n Mod| Esc|->Asg xYuk\n Zom| Rot| Pan| 4 |\n Tab|  6 |  7 |  8 |", true);
             }
             // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             break;
