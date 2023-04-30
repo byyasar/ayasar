@@ -12,24 +12,22 @@ int  fusion360Mode = 1; // 1-zoom 2-pan
 int  menuSayisi    = 5;
 bool winMac        = false; // false durumunda windows true durumunda mac tuşları çalışacak
 
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC };
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC, SUSLUPARANTEZ, CIFTTIRNAK };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-    //Lt basılı tuttuğumda layera git
+    // Lt basılı tuttuğumda layera git
     /* Ana Menu
      * ┌───┬───┬───────┐
      * │Ent│Esc│V- x V+│
      * ├───┼───┼───┬───┤
      * │ 1 │ 2 │ 3 │WxM│
      * ├───┼───┼───┼───┤
-     * │Tab│ 6 │ 7 │Slp│
+     * │Tab│ {}│ ""│Slp│
      * └───┴───┴───┴───┘
      */
     [0] = LAYOUT_numpad_4x3( // ana
-        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX,
-         LT(1,KC_P1),LT(2, KC_P2), LT(3,KC_P3), WINMAC, 
-         PENCEREGECIS, KC_P6, KC_P7, KC_SYSTEM_SLEEP),
+        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1, KC_P1), LT(2, KC_P2), LT(3, KC_P3), WINMAC, PENCEREGECIS, SUSLUPARANTEZ, CIFTTIRNAK, KC_SYSTEM_SLEEP),
 
     /* Fusion 360
      * ┌───┬───┬───────┐
@@ -42,11 +40,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      */
 
     [1] = LAYOUT_numpad_4x3( // fusion 360
-        MOSEMODECHANGE, TUSLARSERBEST, _______, XXXXXXX,
-         FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4,
-         _______, KC_P6, KC_P7, KC_P8),
-    
-     /* Youtube
+        MOSEMODECHANGE, TUSLARSERBEST, _______, XXXXXXX, FUSIONZOOM, FUSIONROTATE, FUSIONPAN, KC_P4, _______, KC_P6, KC_P7, KC_P8),
+
+    /* Youtube
      * ┌───┬───┬───────┐
      * │Ply│Esc│İlr-Ger│
      * ├───┼───┼───┬───┤
@@ -56,10 +52,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [2] = LAYOUT_numpad_4x3( // youtube
-        KC_K, KC_ESCAPE, _______, XXXXXXX,
-        KC_F, KC_P2, KC_P3, KC_AUDIO_VOL_UP,
-         _______,KC_P6, KC_P7, KC_AUDIO_VOL_DOWN),
-     /* VLC
+        KC_K, KC_ESCAPE, _______, XXXXXXX, KC_F, KC_P2, KC_P3, KC_AUDIO_VOL_UP, _______, KC_P6, KC_P7, KC_AUDIO_VOL_DOWN),
+    /* VLC
      * ┌───┬───┬───────┐
      * │Ply│Esc│İlr-Ger│
      * ├───┼───┼───┬───┤
@@ -69,10 +63,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [3] = LAYOUT_numpad_4x3( // VLC
-        KC_SPACE, KC_ESCAPE, _______, XXXXXXX, 
-        LGUI(KC_F), KC_P5, KC_P6, KC_AUDIO_VOL_UP,
-        _______,  KC_P1, KC_P2, KC_AUDIO_VOL_DOWN),  
-     /*
+        KC_SPACE, KC_ESCAPE, _______, XXXXXXX, LGUI(KC_F), KC_P5, KC_P6, KC_AUDIO_VOL_UP, _______, KC_P1, KC_P2, KC_AUDIO_VOL_DOWN),
+    /*
      * ┌───┬───┬───────┐
      * │Ent│Esc│V- x V+│
      * ├───┼───┼───┬───┤
@@ -82,9 +74,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [4] = LAYOUT_numpad_4x3( // OBS
-        _______, KC_ESCAPE, _______, XXXXXXX, 
-        LALT(KC_F9),LALT(KC_F10), LALT(KC_F11), LALT(KC_F12),
-        _______,LSFT(KC_F10), LSFT(KC_F11), LSFT(KC_F12)), 
+        _______, KC_ESCAPE, _______, XXXXXXX, LALT(KC_F9), LALT(KC_F10), LALT(KC_F11), LALT(KC_F12), _______, LSFT(KC_F10), LSFT(KC_F11), LSFT(KC_F12)),
 };
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     oled_clear();
@@ -126,6 +116,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             fusion360Mode = 3;
             mouseMode     = 2;
             register_code(KC_MS_BTN3);
+            break;
+        case SUSLUPARANTEZ:
+            SEND_STRING("{}");
+            break;
+        case CIFTTIRNAK:
+            SEND_STRING("""+""");
             break;
         case PENCEREGECIS: //
             if (record->event.pressed) {
@@ -257,8 +253,8 @@ bool oled_task_user() {
             // oled_write("----------> Ana Menu", true);
             oled_write("      ", true);
             // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
-            oled_write(" Ana Menu", false);
-            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 | WxM|\n Tab|  6 |  7 | Slp|", true);
+            oled_write(" Ana Menu ", false);
+            oled_write("\n Ent| Esc|-> V- x V+ \n  1 |  2 |  3 | WxM |\n Tab|  6 |  7 | Slp |", true);
             break;
         case 1:
             oled_write("    ", true);
