@@ -14,6 +14,7 @@ Yapılması Gerekenler
 
 Devre Bağlantı Şeması:
 ![Ekran görüntüsü 2023-05-01 000951](https://user-images.githubusercontent.com/45915186/235377664-d0c00ef3-77f7-4819-a639-9df0a0ae2cc8.png)
+Önemli Not : Rotary encoder in switch hattını Gnd ile bağlantısını keserek buton gibi kullandım.
 
 Devrenin 3d Tasarım Hali
 ![ayasardeck](https://user-images.githubusercontent.com/45915186/235376107-9c35b5c9-6a7c-4af4-b591-2600f453b340.PNG)
