@@ -18,6 +18,7 @@
 //#define NO_ACTION_LAYER
 //#define NO_ACTION_TAPPING
 //#define NO_ACTION_ONESHOT
+#define DEBOUNCE 50
 
 //A VE B kanalı çok önemli değil, eğer yanlış bağlarsan bunları yer değiştir.
 #ifdef ENCODER_ENABLE
