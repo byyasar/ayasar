@@ -5,7 +5,8 @@
 
 #include "keymap_turkish_q.h"
 #include "sendstring_turkish_q.h"
-//#include "/Users/yasar/qmk_firmware/quantum/keymap_extras/keymap_turkish_f.h"
+// #include "/Users/yasar/qmk_firmware/quantum/keymap_extras/keymap_turkish_f.h"
+// #include "/Users/yasar/qmk_firmware/quantum/keymap_extras/sendstring_turkish_q.h"
 
 int  myLayer       = 0;
 int  mouseMode     = 1; // 1-SCROLL 2-LEFT-RİGHT 3- UP-DOWN
@@ -13,7 +14,7 @@ int  fusion360Mode = 1; // 1-zoom 2-pan
 int  menuSayisi    = 5;
 bool winMac        = false; // false durumunda windows true durumunda mac tuşları çalışacak
 
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC, SUSLUPARANTEZ, CIFTTIRNAK };
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC, SUSLUPARANTEZ, CIFTTIRNAK, KUCUKTUR };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -28,7 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [0] = LAYOUT_numpad_4x3( // ana
-        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1, KC_P1), LT(2, KC_P2), LT(3, KC_P3), WINMAC, PENCEREGECIS, SUSLUPARANTEZ, CIFTTIRNAK, KC_SYSTEM_SLEEP),
+        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1, KC_P1), LT(2, KC_P2), LT(3, KUCUKTUR), WINMAC, PENCEREGECIS, SUSLUPARANTEZ, CIFTTIRNAK, KC_SYSTEM_SLEEP),
 
     /* Fusion 360
      * ┌───┬───┬───────┐
@@ -119,12 +120,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             register_code(KC_MS_BTN3);
             break;
         case SUSLUPARANTEZ:
-            SEND_STRING("{");
+            if (record->event.pressed) {
+                SEND_STRING("{");
+            }
             break;
         case CIFTTIRNAK:
-            register_code(TR_DQUO);
-            unregister_code(TR_DQUO);
-
+            if (record->event.pressed) {
+                register_code(TR_DQUO);
+                unregister_code(TR_DQUO);
+            }
+            break;
+        case KUCUKTUR:
+            if (record->event.pressed) {
+                /*register_code(TR_LABK);
+                unregister_code(TR_LABK);KC_COMM*/
+                register_code(KC_COMM);
+                unregister_code(KC_COMM);
+            }
             break;
         case PENCEREGECIS: //
             if (record->event.pressed) {
@@ -140,8 +152,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     unregister_code(KC_LEFT_ALT);
                 }
             }
-
-            break;
+        break;
         case WINMAC: //
             if (record->event.pressed) {
                 winMac = !winMac;
@@ -252,12 +263,12 @@ bool oled_task_user() {
 
     switch (get_highest_layer(layer_state)) {
         case 0:
-            // oled_write("----- Ana Menu -----", true);
+            // oled_write("----- Ana Menu -----", true); 
             // oled_write("----------> Ana Menu", true);
             oled_write("      ", true);
             // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             oled_write(" Ana Menu", false);
-            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  3 | WxM|\n Tab| Sus| Tir| Slp|", true);
+            oled_write("\n Ent| Esc|-> V- x V+\n  1 |  2 |  < | WxM|\n Tab| {} | '' | Slp|", true);
             break;
         case 1:
             oled_write("    ", true);
@@ -279,7 +290,7 @@ bool oled_task_user() {
             oled_write("       ", true);
             oled_write(" Youtube", false);
             oled_write("\n Ply| Esc|->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
-            break;
+                        break;
         case 3:
             oled_write("    ", true);
             oled_write(" Vlc Player", false);
@@ -299,7 +310,7 @@ bool oled_task_user() {
 
 /*bool oled_task_user(void) {
     oled_set_cursor(0, 0);
-    render_logo();
+    render_logo();""""
     return false;
 }*/
 /*
