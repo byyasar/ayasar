@@ -132,11 +132,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case KUCUKTUR:
             if (record->event.pressed) {
-                /*register_code(TR_LABK);
-                unregister_code(TR_LABK);KC_COMM*/
-                register_code(KC_COMM);
-                unregister_code(KC_COMM);
-            }
+                 SEND_STRING("<");
             break;
         case PENCEREGECIS: //
             if (record->event.pressed) {
