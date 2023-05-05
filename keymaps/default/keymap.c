@@ -132,7 +132,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case KUCUKTUR:
             if (record->event.pressed) {
-                 SEND_STRING("<");
+                SEND_STRING("<");
+            }
             break;
         case PENCEREGECIS: //
             if (record->event.pressed) {
@@ -148,7 +149,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     unregister_code(KC_LEFT_ALT);
                 }
             }
-        break;
+            break;
         case WINMAC: //
             if (record->event.pressed) {
                 winMac = !winMac;
@@ -259,7 +260,7 @@ bool oled_task_user() {
 
     switch (get_highest_layer(layer_state)) {
         case 0:
-            // oled_write("----- Ana Menu -----", true); 
+            // oled_write("----- Ana Menu -----", true);
             // oled_write("----------> Ana Menu", true);
             oled_write("      ", true);
             // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
@@ -286,7 +287,7 @@ bool oled_task_user() {
             oled_write("       ", true);
             oled_write(" Youtube", false);
             oled_write("\n Ply| Esc|->Iler-Ger\n FlS|  2 |  3 |  V+|\n Tab|  6 |  7 |  V-|", true);
-                        break;
+            break;
         case 3:
             oled_write("    ", true);
             oled_write(" Vlc Player", false);
