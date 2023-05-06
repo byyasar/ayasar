@@ -279,7 +279,7 @@ bool oled_task_user() {
                 oled_write("\n Mod| Esc|->Sol xSag\n Zom| Rot| Pan|  4 |\n Tab|  6 |  7 |  8 |", true);
             } else {
                 // oled_write("Up-Down ", false);
-                oled_write("\n Mod| Esc|->Asg xYuk\n Zom| Rot| Pan| 4 |\n Tab|  6 |  7 |  8 |", true);
+                oled_write("\n Mod| Esc|->Asg xYuk\n Zom| Rot| Pan|  4 |\n Tab|  6 |  7 |  8 |", true);
             }
             // oled_write_P(fusion360Mode == 1 ? PSTR("\nZOOM ") : (fusion360Mode == 2 ? PSTR("\nDONDUR ") : (fusion360Mode == 3 ? PSTR("\nTASI ") : PSTR("    "))), false);
             break;
