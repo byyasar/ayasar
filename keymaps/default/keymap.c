@@ -14,7 +14,7 @@ int  fusion360Mode = 1; // 1-zoom 2-pan
 int  menuSayisi    = 5;
 bool winMac        = false; // false durumunda windows true durumunda mac tuşları çalışacak
 
-enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC, SUSLUPARANTEZ, CIFTTIRNAK, KUCUKTUR };
+enum custom_keycodes { SHUT = SAFE_RANGE, MYCHANGELAYER, FUSIONZOOM, FUSIONPAN, TUSLARSERBEST, MOSEMODECHANGE, FUSIONROTATE, PLAYPAUSE, PENCEREGECIS, WINMAC, SUSLUPARANTEZ, CIFTTIRNAK, KUCUKTUR,CMDSHTP };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -29,7 +29,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * └───┴───┴───┴───┘
      */
     [0] = LAYOUT_numpad_4x3( // ana
-        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1, KC_P1), LT(2, KC_P2), LT(3, KUCUKTUR), WINMAC, PENCEREGECIS, SUSLUPARANTEZ, CIFTTIRNAK, KC_SYSTEM_SLEEP),
+        KC_ENTER, KC_ESCAPE, MYCHANGELAYER, XXXXXXX, LT(1, KC_P1), CMDSHTP, LT(3, KUCUKTUR), WINMAC, PENCEREGECIS, SUSLUPARANTEZ, CIFTTIRNAK, KC_SYSTEM_SLEEP),
 
     /* Fusion 360
      * ┌───┬───┬───────┐
@@ -90,6 +90,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code_delay(KC_WH_U, 1000);
                 SEND_STRING(" logoff");
                 tap_code(KC_ENT);
+            }
+            break;
+        case CMDSHTP: // oturum kapatır
+            if (record->event.pressed) {
+                register_code(KC_LGUI);
+                register_code(KC_LEFT_SHIFT);
+                register_code(KC_P);
+                unregister_code(KC_LGUI);
+                unregister_code(KC_LEFT_SHIFT);
+                unregister_code(KC_P);
+                //       tap_code(KC_ENT);
             }
             break;
         case FUSIONZOOM: // oturum kapatır
