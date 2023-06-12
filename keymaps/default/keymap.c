@@ -100,7 +100,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_LGUI);
                 unregister_code(KC_LEFT_SHIFT);
                 unregister_code(KC_P);
-                //       tap_code(KC_ENT);
+                tap_code(KC_ENT);
             }
             break;
         case FUSIONZOOM: // oturum kapatır
