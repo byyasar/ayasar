@@ -32,3 +32,8 @@ Daha önce qmk hakkında pek birşey bilmiyordum ama aşağıdaki linkte Türkç
 
 Tuş Tasarımları için: 
 * https://www.thingiverse.com/thing:3791028 
+
+
+Bu dosylarıda ilgili konumlara kopyalamak gerekiyor.
+/Users/ysrmacbook/qmk_firmware/platforms/chibios/boards/STM32_F103_STM32DUINO
+/Users/ysrmacbook/qmk_firmware/platforms/chibios/boards/common/ld/STM32F103xB_uf2boot.ld
